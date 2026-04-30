@@ -14,6 +14,7 @@ while True:
     except:
         print("Error... digite apenas números")
         continue
+
     ativo_total = ativo_circulante + ativo_nao_circulante
     passivo_total = passivo_circulante + passivo_nao_circulante
 
@@ -37,48 +38,59 @@ while True:
         endividamento = 0
 
     if receita != 0:
-        margem_liquida = estoques / receita
+        margem_liquida = lucro / receita
     else:
         margem_liquida = 0
     
     if patrimonio_liquido != 0:
-        roe = lucro / passivo_circulante
+        roe = lucro / patrimonio_liquido
     else:
         roe = 0
 
-    #ÁREA QUE PRECISA DE ESTILIZAÇÃO
-    #USAR EMOJIS E TAMBEM A TABELA DE CORES \033[m
-
-    print("\n=== RELATÓRIO FINANCEIRO ===\n")
-    print(f"Liquidez corrente:   {liquidez_corrente}")
-    if liquidez_corrente < 1.0:
-        print("Alerta --- risco de não pagar dívidas")
+    print("\n===== RELATÓRIO FINANCEIRO =====\n")
+    print(f"Liquidez corrente:   {liquidez_corrente:.2f}")
+    if liquidez_corrente > 1.0:
+        print("✅ BOM --- tem mais dinheiro do que dívida!")
+    elif liquidez_corrente >= 1.0:
+        print("⚠️ ALERTA --- no limite")
     else:
-        print("Liquidez boa!")
+        print("❌ PERIGO --- risco de não pagar dívidas")
 
-    print(f"Liquidez seca:   {liquidez_seca}")
-
-    print(f"Endividamento:   {endividamento}")
-    if endividamento > 0.8:
-        print("Risco extremo de endividamento")
+    print(f"\nLiquidez seca:   {liquidez_seca:.2f}")
+    if liquidez_seca > 1:
+        print("✅ Muito boa")
+    elif liquidez_seca == 1:
+        print("⚠️ No limite")
     else:
-        print("Endividamento controlado")
+        print("❌ Baixa")
 
-    print(f"Margem líquida:   {margem_liquida:.2f}")
-    if margem_liquida < 0:
-        print("Alerta de prejuízo!")
+    print(f"\nEndividamento:   {endividamento:.2f}")
+    if endividamento < 0.5:
+        print("✅ BOM --- saudável")
+    elif endividamento <= 0.8:
+        print("⚠️ ALERTA --- atenção")
     else:
-        print("Lucro garantido")
+        print("❌ PERIGO --- risco extremo")
 
-    print(f"ROE:   {roe:.2f}")
+    print(f"\nMargem líquida:   {margem_liquida:.2f}")
+    if margem_liquida > 0:
+        print("✅ BOM --- lucro")
+    elif margem_liquida == 0:
+        print("⚠️ ALERTA --- empate")
+    else:
+        print("❌ PERIGO --- prejuízo")
+
+    print(f"\nROE:   {roe:.2f}")
     if roe > 0.20:
-        print("Otimo retorno!")
+        print("EXCELENTE")
+    elif roe > 0.10:
+        print("BOM")
+    elif roe > 0:
+        print("FRACO")
     else:
-        print("Retorno abaixo do ideal")
+        print("PREJUÍZO")
 
-    opcao = str(input("Deseja analisar outra empresa? (s/n): ")).lower()
+    opcao = str(input("\nDeseja analisar outra empresa? (s/n): ")).lower()
     if opcao != "s":
         print("Encerrando programa...")
         break
-
-    #https://github.com/matheusp122/PROJETO-A3.git
